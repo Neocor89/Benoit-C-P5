@@ -7,7 +7,6 @@ const getId = new URL(window.location.href).searchParams.get("id");
 let titleProduct = document.getElementById("title");
 let priceProduct = document.getElementById("price");
 let descriptionProduct = document.getElementById("description");
-// let colorsProduct = document.getElementById("colors");
 const optionColor = document.getElementById('colors');
 let messageError = "REQUEST NOT FOUND";
 
@@ -15,7 +14,7 @@ let messageError = "REQUEST NOT FOUND";
 
 
 
-displayProduct();
+
 
 async function displayProduct() {
 
@@ -57,25 +56,7 @@ async function displayProduct() {
     });
 };
 
-
-
-//+ Ne fonctionne pas
-
-// function checkValues() {
-//     let valueColor = document.querySelector("#colors").value;
-//     let valueQuantity = document.querySelector("#quantity").value;
-//     if(valueColor === null && valueQuantity === 0) {
-//         return alert("Veuillez selectionner une couleur et une quantité pour votre article")
-//     } else {
-//        //:: alert("produit(s) bien ajouté(s) au panier");
-//     }
-// };
-
-//  checkValues();
-
-//+ Ne fonctionne pas
-
-
+displayProduct();
 
 
 //:: Sélection du boutton ajout au panier
@@ -85,18 +66,18 @@ const addCart = document.getElementById("addToCart");
 
 function basketOfProducts() {
 
-    //:: Récupération de des balises html du choix "couleur" & "quantité"
+    //:: Sélection des balises html "couleur" & "quantité"
     const colorProduct = document. querySelector("#colors");
     const quantityProduct = document.querySelector("#quantity");
+
     //:: Vérification des choix "couleur" & "quantité"
     if (quantityProduct.value > 0 && quantityProduct.value <=100 && colorProduct.value) { 
 
         //:: Vérification données stockées dans LocalStorage
         if (localStorage.getItem("article")) {
-            //:: Récpération des valeurs article JSON en JavaScript
+
+            //:: Stockage des valeurs du LocalStorage et conversion en JavaScript
             let articleOfLocalStorage = JSON.parse(localStorage.getItem("article"));
-
-
 
             //:: Récupération de la valeur de la couleur
             let articleColors = document.querySelector("#colors").value;
@@ -104,7 +85,7 @@ function basketOfProducts() {
             //:: Récupération de la valeur de la quantité
             let articleQuantity = document.querySelector("#quantity").value;
 
-            //:: Vérification dans le LocalStorage de la correspondance des "id" et "couleurs" déjà présente
+            //:: Vérification LocalStorage correspondance "id" et "couleurs" présente
             const itemVerification = articleOfLocalStorage.find(
             (value) => value.sofaIdentifier === getId && value.articleColors === articleColors);
 
@@ -114,40 +95,37 @@ function basketOfProducts() {
             if (itemVerification) {
                 //:: Analyse et renvoi "number" de la valeur selectionné 
                 let newQuantite = parseInt(articleQuantity) + parseInt(itemVerification.articleQuantity);
-            
+
                 itemVerification.articleQuantity = newQuantite;
 
                 //:: Ajout de la valeur entré dans le LocalStorage
                 localStorage.setItem("article", JSON.stringify(articleOfLocalStorage));
-           
-             
+            
             } else {
-                    
+
                 let articleOfLocalStorage = JSON.parse(localStorage.getItem("article"));
 
                 let sofaIdentifier = getId;
                 let articleColors = document.querySelector("#colors").value;
                 let articleQuantity = document.querySelector("#quantity").value;
-             
-             
-            
+
+
                 let detailsArticleOfLocalStorage = {
                     sofaIdentifier : getId,
                     articleColors : articleColors,
                     articleQuantity  : articleQuantity,
                 };
 
-                    //:: Ajouter des éléments à chaque fois.
-                    articleOfLocalStorage.push(detailsArticleOfLocalStorage);
-                    //::  Objet converti en string JSON
-                    let createCart = JSON.stringify(articleOfLocalStorage);
-                    localStorage.setItem("article", createCart);
-                
+                //:: Ajouter des éléments à chaque fois.
+                articleOfLocalStorage.push(detailsArticleOfLocalStorage);
+                //::  Objet converti en string JSON
+                let createCart = JSON.stringify(articleOfLocalStorage);
+                localStorage.setItem("article", createCart);
+
             }
 
-        
-        } else {
 
+        }   else {            
             let articleOfLocalStorage = [];
 
 
@@ -155,9 +133,6 @@ function basketOfProducts() {
             let articleColors = document.querySelector("#colors").value;
             let articleQuantity = document.querySelector("#quantity").value;
   
-
-
-        
             let detailsArticleOfLocalStorage = {
                 sofaIdentifier : getId,
                 articleColors : articleColors,
@@ -165,54 +140,39 @@ function basketOfProducts() {
            
             };
               
-            
             articleOfLocalStorage.push(detailsArticleOfLocalStorage);
             
             let createCart = JSON.stringify(articleOfLocalStorage);
             localStorage.setItem("article", createCart);
             
-        }
+         }
         
     }
 
   
 };
 
-  
 
-//::écoute de l'évènement 'click' sur l'ajout du product au panier 
+/*
+: Ajout écoute d'évènement 'click' sur boutton ajout panier 
+: Et appel de la function "basketOfProducts"
+*/
 addCart.addEventListener("click", basketOfProducts);
 
-//:: Appel de la function "basketOfProducts" dans l'écouteur d'évènement du 'click' 
-//::document.querySelector('select option');
 
-
-
-
-
-// let valueColors = document.querySelector("#colors").value;
-let valueQuantity = document.querySelector("#quantity").value;
-let checkBtnCart = document.querySelector("#addToCart");
-// let optValue = document.querySelector('select option [value]');
-console.log(optionColor);
-
-
-
-
-
-
-function namevirification() {
-    
-    checkBtnCart.addEventListener("click",  function() {
-        if(valueQuantity ==  0 && optionColor.value == "") {
-            alert("Please select a color and  correct quantity")
-            console.log(valueColors)
-        }
-    })
-    
-}
-namevirification()
-
-
-
-
+/*
+: Autre ajout d'écouteurs d'évènements :
+: Vérification des données saisies par l'utilisateur 
+: Confirmation d'ajout au panier du produit
+*/
+addCart.addEventListener("click",  function() {
+const optionColor = document.getElementById('colors');
+const valueQuantity = document.querySelector("#quantity");
+    if(valueQuantity.value ==  0 || optionColor.value == "") {
+        alert("Please select a color and  correct quantity")
+    } else if(valueQuantity.value >  100) {
+        alert("Le nombre de produits par commande est limité à 100 !")
+    } else if (valueQuantity.value < 100 && optionColor.value) {
+        alert(titleProduct.textContent + " ajouté(s) à votre panier")
+    }
+});

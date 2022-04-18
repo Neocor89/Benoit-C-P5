@@ -67,6 +67,7 @@ h2 {
 }
 .cart__item__content__settings__delete p {
 	display: inline;
+	line-height: 40px;
 }
 .cart__item__content__settings__delete p:hover {
 	cursor: pointer;

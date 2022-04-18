@@ -3,11 +3,8 @@
 //:: RAPPEL DU LOCAL_STORAGE
 let articleOfLocalStorage = JSON.parse(localStorage.getItem("article"));
 
-
 let quantity = 0;
 let balancePrice = 0;
-
-
 
 //:: Selection de l'emplacement html
 const cartSelection = document.querySelector('#cart__items');
@@ -15,57 +12,39 @@ const cartSelection = document.querySelector('#cart__items');
 let sofaIdentifier;
 
 
+// function deleteProduct () {
+//   //  :: Suppression des produits
+//   //  :: Selection de l'emplacement dans le html
+// let removeProduct = document.getElementsByClassName('deleteItem'); 
+// console.log(removeProduct)
 
 
-function changeQuantityOfProduct () {
+// let articleOfLocalStorage = JSON.parse(localStorage.getItem("article"));
 
-  let changeQuantity = document.querySelectorAll('.itemQuantity');
-console.log(document.getElementsByClassName('itemQuantity'));
-
-  console.log(changeQuantity.length)
-  for(let i = 0; i < changeQuantity.length; i ++) {
-    console.log(changeQuantity[i])
-    
-  }
-}
-
-
-
-
-
-
-//::*::*::*::*::*::*::*::*::*::*:!     DELETE QUANTITY    !:*::*::*::*::*::*::*::*::*::*//
-
-
-function deleteProduct () {
-//:: Suppression des produits
-//:: Selection de l'emplacement dans le html
-let removeBtnsCart = document.getElementsByClassName('deleteItem');
-
-
-let articleOfLocalStorage = JSON.parse(localStorage.getItem("article"));
-
-for(var value = 0; value < removeBtnsCart.length; value++) {
-    var button = removeBtnsCart[value];
-    button.addEventListener('click', e => {
-        event.preventDefault();
-        console.log(e);
-        // :: Eviter comportement inatendu au moment de l'intéraction avec l'élément
-        // :: Intéraction avec les différentes possibilitées de suppression des produits
-        let idProductDelete = articleOfLocalStorage[value].sofaIdentifier;
-        console.log(idProductDelete);
-        //::Choix de suppression par "id"
-        let colorProductDelete = articleOfLocalStorage[value].articleColors;
-        //::Choix de suppression par "couleur"
-
-         console.log("MAUVAISE MANIP")
-        let filtered = articleOfLocalStorage.filter(element => element.sofaIdentifier !== idProductDelete && 
-            element.sofaIdentifier !== colorProductDelete );
-               localStorage.setItem('article', JSON.stringify(filtered));
+// for(let index = 0; index < removeProduct.length; index++) {
+//     let button = removeProduct[index];
+//     button.addEventListener('click', (e) => {
+//       e.preventDefault();
+      
+//         // :: Eviter comportement inatendu au moment de l'intéraction avec l'élément
+//         // :: Intéraction avec les différentes possibilitées de suppression des produits
+//         let idProductDelete = articleOfLocalStorage[index].sofaIdentifier;
+//         console.log(e.target);
+//         //::Choix de suppression par "id"
+//         let colorProductDelete = articleOfLocalStorage[index].articleColors;
+//         //  ::Choix de suppression par "couleur"
+//         let filtered = articleOfLocalStorage.removeItem(element => element.sofaIdentifier !== idProductDelete && element.sofaIdentifier !== colorProductDelete );
+//                localStorage.setItem('article', JSON.stringify(filtered));
      
-    });
-}
-};
+//     });
+// }
+// };
+
+
+
+
+
+
 
 
 
@@ -124,7 +103,6 @@ function basketStatus () {
             cartItemContentTitlePrice.appendChild(addPrice);
             addPrice.innerHTML = product.price * articleOfLocalStorage[index].articleQuantity + "€";
 
-            // console.log( articleQuantity);
 
           let cartItemContentSettings = document.createElement("div");
             cartItemContent.appendChild(cartItemContentSettings);
@@ -138,8 +116,7 @@ function basketStatus () {
             cartItemContentSettingsQuantity.className = "cart__item__content__settings__quantity";
 
             //:: Ajout info Quantitée
-
-            
+ 
             //:: Information Quantitée des produit avec html
             
           let quantityDisplay = document.createElement("input");
@@ -153,13 +130,13 @@ function basketStatus () {
             quantityDisplay.addEventListener('change', (event) => {
               event.preventDefault();
               //:: Suppression d'un comportement inatendu au moment de l'intéraction avec l'élément
-                console.log(event.target.value)
                   
       
                   articleOfLocalStorage[index].articleQuantity = event.target.value;
         
                   //:: Enregistrement des données dans le LocalStorage
                   localStorage.setItem('article', JSON.stringify(articleOfLocalStorage));
+                  location.reload();
                   
               });
             //:: Suppression des infos produits
@@ -169,76 +146,50 @@ function basketStatus () {
 
             //:: Suppression produit
           let removeProduct = document.createElement("button");
-            removeProduct.style.borderRadius = "6px";
+
             removeProduct.style.cursor = "pointer";
-            removeProduct.style.marginBottom = "15px";
             removeProduct.style.marginRight = "8px";
-            removeProduct.style.fontSize = "12px";
+            removeProduct.style.fontSize = "18px";
             removeProduct.className = "deleteItem";
-            removeProduct.innerText = "Supprimer";
+            removeProduct.textContent = "Supprimer";
+            removeProduct.addEventListener("click", function(e) {
+              e.stopPropagation();
+               
+                  //::Choix de suppression par "id"
+                  //  ::Choix de suppression par "couleur"
+                  let filtered = articleOfLocalStorage.filter(article => article.sofaIdentifier !== product._id && article.articleColors !== articleOfLocalStorage[index].articleColors);
+                  if(filtered && window.confirm("Etes vous sûr de bien vouloir supprimer ce produit !")) {
+                      localStorage.removeItem('article')
+                      localStorage.setItem('article', JSON.stringify(filtered));
+                      location.reload();
+                  
+                      
+          
+                    }
+              })
             cartItemContentSettingsDelete.appendChild(removeProduct);
 
-
-             //:: enregistrer l'id et la couleur séléctionnés
-            
-         
+            //:: enregistrer l'id et la couleur séléctionnés
 
             quantity += parseInt(articleOfLocalStorage[index].articleQuantity);
             balancePrice += product.price * articleOfLocalStorage[index].articleQuantity;
             document.getElementById('totalPrice').innerText = balancePrice;
             document.getElementById('totalQuantity').innerText = quantity;
         })
-
-        // const totalQtt = articleOfLocalStorage.reduce((product, qtt) => {
-        //   return product + qtt.articleQuantity;
-        // },0);
-        // console.log(totalQtt);
-        
+ 
         }
-        deleteProduct();
-        changeQuantityOfProduct();
-    }
-
-
-
-};
-
-
-
+        
+      }
+      
+    };
+    
 basketStatus();
 
+    
+ 
 
-
-
-
-
-
-
-
-
-
-//::*::*::*::*::*::*::*::*::*:!     START CHANGING & DELETE QUANTITY      !:*::*::*::*::*::*::*::*::*//
-
-
-
-
-
-//::*::*::*::*::*::*::*::*::*::*:!     "END" CHANGING & DELETE QUANTITY     !:*::*::*::*::*::*::*::*::*::*//
-
-
-
-
-
-
-
-
-
-
-
-
-//::*::*::  Initialisation du formulaire  ::*::*:://
-
-let formError = document.getElementById('firstNameErrorMsg');
+            //::*::*::  Initialisation du formulaire  ::*::*:://
+            
 let form = document.querySelector(".cart__order__form");
 
 let firstName = document.querySelector("#firstName");
@@ -283,22 +234,18 @@ form.addEventListener("submit", function(event) {
   if(validFirstName(form.firstname) && validLastName(form.lastname) && validEmail(form.email) && validAdress(form.adress) && validCity(form.city)) {
     form.submit();
   }else {
-    console.log("FORMULAIRE NON ENVOYE");
   }
 });
 
 
 const validFirstName = function(inputFirstName) {
   let firstNameRegExp = new RegExp(
-    '[a-z -Z\w]' 
+    '[a-zA-Z]+' 
   );
   
   let firstNameMsg = inputFirstName.nextElementSibling;
-  console.log(firstNameRegExp);
   
   if(firstNameRegExp.test(inputFirstName.value) && inputFirstName.value.length > 2) {
-      firstNameMsg.innerHTML = "Prenom Correct";
-      firstNameMsg.style.color = "#0be05d";
     return true;
   } else {
       firstNameMsg.innerHTML = "Prenom Non-valide";
@@ -313,20 +260,15 @@ const validFirstName = function(inputFirstName) {
 
 const validLastName = function(lastName) {
   let lastNameRegExp = new RegExp(
-    "[a-z -Z\w]"
+    "[a-zA-Z]+"
   );
 
 let lastNameMsg = lastName.nextElementSibling;
-  console.log(lastNameRegExp);
   
   if(lastNameRegExp.test(lastName.value) && lastName.value.length > 2) {
-      lastNameMsg.innerHTML = "Nom Valide";
-      lastNameMsg.style.color = "#0be05d";
-      lastNameMsg.style.fontSize = "12px";
-      lastNameMsg.style.fontWeight = "600";
     return true;
   } else {
-      lastNameMsg.innerHTML = "Nom Incorrect";
+      lastNameMsg.innerHTML = "Nom Non-valide";
       lastNameMsg.style.color = "#d31850";
       lastNameMsg.style.fontSize = "12px";
       lastNameMsg.style.fontWeight = "600";
@@ -343,16 +285,11 @@ const validEmail = function(input) {
     );
     
       let emailMsg = input.nextElementSibling;
-    console.log(emailMsg)
     
     if(emailRegExp.test(input.value)) {
-      emailMsg.innerHTML = "Adresse-Mail Valide";
-      emailMsg.style.color = "#0be05d";
-      emailMsg.style.fontSize = "12px";
-      emailMsg.style.fontWeight = "600";
       return true;
     } else {
-      emailMsg.innerHTML = "Adresse-Mail Incorrect";
+      emailMsg.innerHTML = "Adresse-Mail Non-valide";
       emailMsg.style.color = "#d31850";
       emailMsg.style.fontSize = "12px";
       emailMsg.style.fontWeight = "600";
@@ -368,7 +305,7 @@ const validEmail = function(input) {
   let adressMsg = inputAdress.nextElementSibling;
 
   if(inputAdress.value.length > 4){
-    adressMsg.innerHTML = "Adresse Valide";
+    adressMsg.innerHTML = "Adresse Non-valide";
     adressMsg.style.color = "#0be05d";
     return true;
     } else {
@@ -404,22 +341,11 @@ const validEmail = function(input) {
   };
   
 
-
-
-
-
-
-let inputQuantity = document.querySelector("button");
-let inputDeleteProduct = document.getElementsByClassName("deleteItem");
-console.log();
-
-
-
 let stockId;
 let stockColor;
 let stockQuantity;
 
-function verificationColors() {
+function stockVerification() {
     
   let articleOfLocalStorage = JSON.parse(localStorage.getItem("article"));
     for(let values in articleOfLocalStorage) {
@@ -428,39 +354,14 @@ function verificationColors() {
           stockId = articleOfLocalStorage[values].sofaIdentifier; 
           stockQuantity = articleOfLocalStorage[values].articleQuantity;
           return true;
-        } else {
-          return console.log(stockColor + " " + stockQuantity + " " + stockId);
-      }
+        } 
       
     }
 
     
 }
 
-verificationColors()
-
-/*
-
-+ "DEBUT" REPRENDRE POUR SUPPRESSION QUANTITES VIA INPUT ITEM_QUANTITY
-::for(let deletVal = 0; deletVal < deleteButton.length; deletVal++) {
-      :deleteButton[deletVal].addEventListener('click', (event) => {
-          :event.preventDefault();
-:: let quantityProductDelete = articleOfLocalStorage[deletVal].articleQuantity;
-            Choix de suppression par "quantité"
-
-      :articleOfLocalStorage = articleOfLocalStorage.filter(element => element.product.id !== idProductDelete || 
-      :element.product.id !== colorProductDelete || 
-      :element.product.id !== quantityProductDelete);
-
- Mise à jour des nouvelles valeurs si suppression
-      :localStorage.setItem('article', JSON.stringify(articleOfLocalStorage));
-+ "FIN" REPRENDRE POUR SUPPRESSION QUANTITES VIA INPUT ITEM_QUANTITY
-
-*/
-
-
-
-//:: Suppression modif et validation localStorage 
+stockVerification()
 
 
 function sendingForm() {
@@ -507,9 +408,3 @@ function sendingForm() {
   }); 
 }  
     sendingForm();
-
-    
-      
-    
-
-
