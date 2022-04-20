@@ -6,9 +6,12 @@
     <meta charset="utf-8">
     <meta name="description" content="Plateforme incroyable de e-commerce">
 
+        <!-- *::*::*::   Layout Resources   *::*::*:: -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- *::*::*::   Layout Files   *::*::*:: -->
     <link href="../css/style.css" rel="stylesheet" />
     <link href="../css/product.css" rel="stylesheet" />
 
@@ -16,6 +19,8 @@
   </head>
 
   <body>
+
+    <!-- *::*::*::   HEADER PART   *::*::*:: -->
     <header>
       <div class="limitedWidthBlockContainer informations">
         <div class="limitedWidthBlock">
@@ -31,17 +36,20 @@
           <a href="./index.html">
             <img class="logo" src="../images/logo.png" alt="Logo de l'entreprise">
           </a>
+          <!-- *::*::*::  "Start" Navigation   *::*::*:: -->
           <nav>
             <ul>
               <a href="./index.html"><li>Accueil</li></a>
               <a href="./cart.html"><li>Panier</li></a>
             </ul>
           </nav>
+          <!-- *::*::*::  "End" Navigation   *::*::*:: -->
         </div>
       </div>
       <img class="banniere" src="../images/banniere.png" alt="Baniere">
     </header>
 
+    <!-- *::*::*::   MAIN PART   *::*::*:: -->
     <main class="limitedWidthBlockContainer">
       <div class="limitedWidthBlock">
         <section class="item">
@@ -52,13 +60,13 @@
             <div class="item__content">
 
               <div class="item__content__titlePrice">
-                <h1 id="title"><!-- Nom du produit --></h1>
-                <p>Prix : <span id="price"><!-- 42 --></span>€</p>
+                <h1 id="title"></h1>
+                <p>Prix : <span id="price"></span>€</p>
               </div>
 
               <div class="item__content__description">
                 <p class="item__content__description__title">Description :</p>
-                <p id="description"><!-- Dis enim malesuada risus sapien gravida nulla nisl arcu. --></p>
+                <p id="description"></p>
               </div>
 
               <div class="item__content__settings">
@@ -66,8 +74,7 @@
                   <label for="color-select">Choisir une couleur :</label>
                   <select name="color-select" id="colors">
                       <option value="">--SVP, choisissez une couleur --</option>
-<!--                       <option value="vert">vert</option>
-                      <option value="blanc">blanc</option> -->
+
                   </select>
                 </div>
 
@@ -87,6 +94,7 @@
       </div>
     </main>
     
+    <!-- *::*::*::   FOOTER PART   *::*::*:: -->
     <footer>
       <div class="limitedWidthBlockContainer footerMain">
         <div class="limitedWidthBlock">
@@ -110,6 +118,7 @@
         </div>
       </div>
     </footer>
+    <!-- *::*::*::   link with JS File   *::*::*:: -->
   <script src="../js/product.js"></script>
   </body>
 </html>

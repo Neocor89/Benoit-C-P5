@@ -1,5 +1,3 @@
-
-
 //::Récupération de l'id via les paramètres de l'url
 const getId = new URL(window.location.href).searchParams.get("id");
 
@@ -9,12 +7,6 @@ let priceProduct = document.getElementById("price");
 let descriptionProduct = document.getElementById("description");
 const optionColor = document.getElementById('colors');
 let messageError = "REQUEST NOT FOUND";
-
-
-
-
-
-
 
 async function displayProduct() {
 
@@ -28,7 +20,7 @@ async function displayProduct() {
         //:: Selection Parent image
         let imgProduct = document.querySelector(".item__img");
         
-        //:: Insertion image
+        //:: Création d'une image pour l'affichage produit
         let displayImg = document.createElement("img");
 
         //:: Insertion image dans DOM
@@ -42,9 +34,7 @@ async function displayProduct() {
         titleProduct.innerHTML = product.name;
         priceProduct.innerHTML = product.price;
         descriptionProduct.innerHTML = product.description;
-        // document.title = product.name;
 
-        
         //:: Insertion balise html et valeurs en fonction des produits 
         for(let color of product.colors) {
             optionColor.innerHTML += `<option value="${color}">${color}</option>`;
@@ -58,11 +48,8 @@ async function displayProduct() {
 
 displayProduct();
 
-
 //:: Sélection du boutton ajout au panier
 const addCart = document.getElementById("addToCart");
-
-
 
 function basketOfProducts() {
 
@@ -89,13 +76,11 @@ function basketOfProducts() {
             const itemVerification = articleOfLocalStorage.find(
             (value) => value.sofaIdentifier === getId && value.articleColors === articleColors);
 
-            //:: Si le produit commandé est déjà dans le panier
-
             //:: Vérification "SI" option couleur ou id de l'article déjà dans le panier 
             if (itemVerification) {
                 //:: Analyse et renvoi "number" de la valeur selectionné 
                 let newQuantite = parseInt(articleQuantity) + parseInt(itemVerification.articleQuantity);
-
+                
                 itemVerification.articleQuantity = newQuantite;
 
                 //:: Ajout de la valeur entré dans le LocalStorage
@@ -105,11 +90,11 @@ function basketOfProducts() {
 
                 let articleOfLocalStorage = JSON.parse(localStorage.getItem("article"));
 
-                let sofaIdentifier = getId;
-                let articleColors = document.querySelector("#colors").value;
-                let articleQuantity = document.querySelector("#quantity").value;
+                // let sofaIdentifier = getId;
+                // let articleColors = document.querySelector("#colors").value;
+                // let articleQuantity = document.querySelector("#quantity").value;
 
-
+                //:: Création d'un objet pour les différentes informations
                 let detailsArticleOfLocalStorage = {
                     sofaIdentifier : getId,
                     articleColors : articleColors,
@@ -129,7 +114,7 @@ function basketOfProducts() {
             let articleOfLocalStorage = [];
 
 
-            let sofaIdentifier = getId;
+            // let sofaIdentifier = getId;
             let articleColors = document.querySelector("#colors").value;
             let articleQuantity = document.querySelector("#quantity").value;
   
@@ -149,9 +134,7 @@ function basketOfProducts() {
         
     }
 
-  
 };
-
 
 /*
 : Ajout écoute d'évènement 'click' sur boutton ajout panier 
@@ -159,17 +142,16 @@ function basketOfProducts() {
 */
 addCart.addEventListener("click", basketOfProducts);
 
-
 /*
-: Autre ajout d'écouteurs d'évènements :
+: Ecouteurs d'évènements :
 : Vérification des données saisies par l'utilisateur 
 : Confirmation d'ajout au panier du produit
 */
 addCart.addEventListener("click",  function() {
-const optionColor = document.getElementById('colors');
+// const optionColor = document.getElementById('colors');
 const valueQuantity = document.querySelector("#quantity");
     if(valueQuantity.value ==  0 || optionColor.value == "") {
-        alert("Please select a color and  correct quantity")
+        alert("Veuillez choisir une quantité et une couleur pour votre produit")
     } else if(valueQuantity.value >  100) {
         alert("Le nombre de produits par commande est limité à 100 !")
     } else if (valueQuantity.value < 100 && optionColor.value) {

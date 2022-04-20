@@ -1,58 +1,16 @@
-
-
-//:: RAPPEL DU LOCAL_STORAGE
 let articleOfLocalStorage = JSON.parse(localStorage.getItem("article"));
 
 let quantity = 0;
 let balancePrice = 0;
-
-//:: Selection de l'emplacement html
-const cartSelection = document.querySelector('#cart__items');
-
 let sofaIdentifier;
 
-
-// function deleteProduct () {
-//   //  :: Suppression des produits
-//   //  :: Selection de l'emplacement dans le html
-// let removeProduct = document.getElementsByClassName('deleteItem'); 
-// console.log(removeProduct)
-
-
-// let articleOfLocalStorage = JSON.parse(localStorage.getItem("article"));
-
-// for(let index = 0; index < removeProduct.length; index++) {
-//     let button = removeProduct[index];
-//     button.addEventListener('click', (e) => {
-//       e.preventDefault();
-      
-//         // :: Eviter comportement inatendu au moment de l'intéraction avec l'élément
-//         // :: Intéraction avec les différentes possibilitées de suppression des produits
-//         let idProductDelete = articleOfLocalStorage[index].sofaIdentifier;
-//         console.log(e.target);
-//         //::Choix de suppression par "id"
-//         let colorProductDelete = articleOfLocalStorage[index].articleColors;
-//         //  ::Choix de suppression par "couleur"
-//         let filtered = articleOfLocalStorage.removeItem(element => element.sofaIdentifier !== idProductDelete && element.sofaIdentifier !== colorProductDelete );
-//                localStorage.setItem('article', JSON.stringify(filtered));
-     
-//     });
-// }
-// };
-
-
-
-
-
-
-
-
-
+//:: Selection de l'emplacement du parent html
+const cartSelection = document.querySelector('#cart__items');
 
 //:: Verification de l'état du Panier
 function basketStatus () {
   if(articleOfLocalStorage === null || articleOfLocalStorage <= 0) {
-      //: Si le panier vide 
+      //: Message si panier vide 
       cartSelection.innerHTML = "<p>Votre panier ne contient aucun article pour le moment</p>"
       return false;
   } else {
@@ -71,7 +29,6 @@ function basketStatus () {
           //::Attribution de la class "cart__item__img"
             addDisplay.className = "cart__item__img";
 
-    
           let addImage = document.createElement("img");
             addDisplay.appendChild(addImage);
             addImage.src = product.imageUrl;
@@ -84,7 +41,6 @@ function basketStatus () {
 
             //:: Affichage des différents prix des articles 
           let cartItemContentTitlePrice = document.createElement("div");
-            // let cartItemContentTitlePrice = document.querySelector("input")
             
             cartItemContent.appendChild(cartItemContentTitlePrice);
             //::Attribution de la class "cart__item__titlePrice"
@@ -97,8 +53,7 @@ function basketStatus () {
           let addColor = document.createElement("p");
             nameOfProduct.appendChild(addColor);
             addColor.innerHTML = articleOfLocalStorage[index].articleColors;
-           //:: Resultat à vérifier
-            
+            //:: Affichage du prix
           let addPrice = document.createElement("p");
             cartItemContentTitlePrice.appendChild(addPrice);
             addPrice.innerHTML = product.price * articleOfLocalStorage[index].articleQuantity + "€";
@@ -131,7 +86,6 @@ function basketStatus () {
               event.preventDefault();
               //:: Suppression d'un comportement inatendu au moment de l'intéraction avec l'élément
                   
-      
                   articleOfLocalStorage[index].articleQuantity = event.target.value;
         
                   //:: Enregistrement des données dans le LocalStorage
@@ -144,11 +98,10 @@ function basketStatus () {
           cartItemContentSettingsDelete.className = "cart__item__content__settings__delete";
           cartItemContentSettings.appendChild(cartItemContentSettingsDelete);
 
-            //:: Suppression produit
+            //:: Création du btn de suppression produit
           let removeProduct = document.createElement("button");
-
-            removeProduct.style.cursor = "pointer";
-            removeProduct.style.marginRight = "8px";
+            removeProduct.style.marginTop = "10px";
+            removeProduct.style.borderRadius = "8px";
             removeProduct.style.fontSize = "18px";
             removeProduct.className = "deleteItem";
             removeProduct.textContent = "Supprimer";
@@ -162,9 +115,6 @@ function basketStatus () {
                       localStorage.removeItem('article')
                       localStorage.setItem('article', JSON.stringify(filtered));
                       location.reload();
-                  
-                      
-          
                     }
               })
             cartItemContentSettingsDelete.appendChild(removeProduct);
@@ -182,14 +132,10 @@ function basketStatus () {
       }
       
     };
-    
+
 basketStatus();
 
-    
- 
-
-            //::*::*::  Initialisation du formulaire  ::*::*:://
-            
+            //::*::*::  Initialisation du formulaire  ::*::*::// 
 let form = document.querySelector(".cart__order__form");
 
 let firstName = document.querySelector("#firstName");
@@ -197,9 +143,6 @@ let lastName = document.querySelector("#lastName");
 let email = document.querySelector('#email');
 let address = document.querySelector('#address');
 let city = document.querySelector('#city');
-
-
-
 
 firstName.addEventListener("change", function() {
     validFirstName(this)
@@ -209,26 +152,19 @@ lastName.addEventListener("change", function() {
   validLastName(this)
 });
 
-
 email.addEventListener("change", function() {
   validEmail(this)
 });
-
 
 address.addEventListener("change", function() {
   validAdress(this)
 });
 
-
 city.addEventListener("change", function() {
   validCity(this)
 });
 
-  
-
-
 // :: VALIDATION FORMULAIRE
-
 form.addEventListener("submit", function(event) {
   event.preventDefault();
   if(validFirstName(form.firstname) && validLastName(form.lastname) && validEmail(form.email) && validAdress(form.adress) && validCity(form.city)) {
@@ -236,7 +172,6 @@ form.addEventListener("submit", function(event) {
   }else {
   }
 });
-
 
 const validFirstName = function(inputFirstName) {
   let firstNameRegExp = new RegExp(
@@ -257,10 +192,9 @@ const validFirstName = function(inputFirstName) {
   
 };
 
-
 const validLastName = function(lastName) {
   let lastNameRegExp = new RegExp(
-    "[a-zA-Z]+"
+    '[a-zA-Z]+'
   );
 
 let lastNameMsg = lastName.nextElementSibling;
@@ -276,8 +210,6 @@ let lastNameMsg = lastName.nextElementSibling;
   }
   
 };
-
-
 
 const validEmail = function(input) {
     let emailRegExp = new RegExp(
@@ -298,15 +230,11 @@ const validEmail = function(input) {
    
   };
 
-
-
   const validAdress = function(inputAdress) {
   
   let adressMsg = inputAdress.nextElementSibling;
 
   if(inputAdress.value.length > 4){
-    adressMsg.innerHTML = "Adresse Non-valide";
-    adressMsg.style.color = "#0be05d";
     return true;
     } else {
     adressMsg.innerHTML = "Adresse Incorrect";
@@ -317,7 +245,6 @@ const validEmail = function(input) {
     }
   };
 
-
   const validCity = function(inputCity) {
     let cityRegExp = new RegExp(
       '^[a-zA-Z][a-zA-Z\s-]+[a-zA-Z]$'
@@ -326,10 +253,6 @@ const validEmail = function(input) {
   let cityMsg = inputCity.nextElementSibling;
   
   if(cityRegExp.test(inputCity.value)){
-    cityMsg.innerHTML = "Ville Valide";
-    cityMsg.style.color = "#0be05d";
-    cityMsg.style.fontSize = "12px";
-    cityMsg.style.fontWeight = "600";
     return true;
     } else {
     cityMsg.innerHTML = "Ville Incorrect";
@@ -340,30 +263,6 @@ const validEmail = function(input) {
     }
   };
   
-
-let stockId;
-let stockColor;
-let stockQuantity;
-
-function stockVerification() {
-    
-  let articleOfLocalStorage = JSON.parse(localStorage.getItem("article"));
-    for(let values in articleOfLocalStorage) {
-      if(articleOfLocalStorage[values].articleColors && articleOfLocalStorage[values].articleQuantity) {
-          stockColor = articleOfLocalStorage[values].articleColors;
-          stockId = articleOfLocalStorage[values].sofaIdentifier; 
-          stockQuantity = articleOfLocalStorage[values].articleQuantity;
-          return true;
-        } 
-      
-    }
-
-    
-}
-
-stockVerification()
-
-
 function sendingForm() {
   const orderButton = document.getElementById('order');
   //:: J'associe l'événement click à mon envoi de formulaire 
@@ -378,7 +277,7 @@ function sendingForm() {
       city : document.getElementById('city').value,
       email : document.getElementById('email').value
     }
-  //:: J'initialise un "empty array" pour y ajouter mes valeurs une fois boucler 
+ 
   let catchArrayProducts = [];
       for (let element = 0; element < articleOfLocalStorage.length; element++) {
           catchArrayProducts.push(articleOfLocalStorage[element].sofaIdentifier);

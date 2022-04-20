@@ -24,8 +24,13 @@ async function stockArticles() {
     
     };
 
-    
-    
-//::*:: AFFICHAGE DES PRODUITS VIA REPONSE JSON
 stockArticles();
+
+/*
+* Récap async function stockArticles()
+: Mise en place de la function asynchronously, 
+: permet de ne pas bloquer l'exécution du code,
+:  en attendant la response sous format JSON de l'api
+: Mise en forme de la response en utilisant un template literals et l'interpolation des variables pour l'affichage des produits 
+*/
 

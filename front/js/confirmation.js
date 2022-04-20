@@ -1,12 +1,13 @@
 
-let str = window.location.href;
-let url = new URL(str);
-let orderId = url.searchParams.get("orderId");
+
+let orderId = new URL(window.location.href).searchParams.get("id");
+
 
 function getOrderId(){
-    const orderId = document.getElementById("orderId");
-    orderId.innerText = localStorage.getItem("orderId");
-    localStorage.clear();
-}
+    const displayId = document.getElementById("orderId");
+    displayId.innerText = orderId;
+    // localStorage.clear();
+
+  }
 
 getOrderId();
