@@ -1,5 +1,5 @@
 async function stockArticles() {
-    fetch('http://localhost:3000/api/products/')
+    await fetch('http://localhost:3000/api/products/')
     .then((response) => {
          return response.json()
     })

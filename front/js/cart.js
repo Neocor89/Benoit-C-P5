@@ -300,8 +300,8 @@ function sendingForm() {
       fetch("http://localhost:3000/api/products/order", options)
           .then(response => response.json())
           .then(data => {
-          localStorage.setItem('orderId', data.orderId);
-          document.location.href = 'confirmation.html?id='+ data.orderId;
+          localStorage.setItem('article', data.orderId);
+          document.location.href = '/front/html/confirmation.html?id='+ data.id;
         });
     
   }); 
