@@ -70,7 +70,6 @@ function basketStatus () {
             //::Attribution de la class "cart__item__content__settings__quantity"
             cartItemContentSettingsQuantity.className = "cart__item__content__settings__quantity";
 
-            //:: Ajout info Quantitée
  
             //:: Information Quantitée des produit avec html
             
@@ -275,7 +274,7 @@ function sendingForm() {
       lastName : document.getElementById('lastName').value,
       address : document.getElementById('address').value,
       city : document.getElementById('city').value,
-      email : document.getElementById('email').value
+      email : document.getElementById('email').value,
     }
  
   let catchArrayProducts = [];
@@ -285,8 +284,8 @@ function sendingForm() {
     
       const formValues = {
         personalUsersValues,
-        catchArrayProducts,
-      }
+        products: catchArrayProducts
+      };
     
    
       const options = {
@@ -300,8 +299,8 @@ function sendingForm() {
       fetch("http://localhost:3000/api/products/order", options)
           .then(response => response.json())
           .then(data => {
-          localStorage.setItem('article', data.orderId);
-          document.location.href = '/front/html/confirmation.html?id='+ data.id;
+          localStorage.setItem("article", data._id);
+          document.location.href = 'confirmation.html?id='+ data._id;
         });
     
   }); 
