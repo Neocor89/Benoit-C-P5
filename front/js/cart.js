@@ -269,7 +269,7 @@ function sendingForm() {
       //:: Previent les évènement innatendu avec methode "preventDefault"
       event.preventDefault();
           //:: J'encapsule les valeurs du formulaire dans un objet
-      const personalUsersValues = {
+      const contact = {
       firstName : document.getElementById('firstName').value,
       lastName : document.getElementById('lastName').value,
       address : document.getElementById('address').value,
@@ -277,20 +277,20 @@ function sendingForm() {
       email : document.getElementById('email').value,
     }
  
-  let catchArrayProducts = [];
+  let products = [];
       for (let element = 0; element < articleOfLocalStorage.length; element++) {
-          catchArrayProducts.push(articleOfLocalStorage[element].sofaIdentifier);
+          products.push(articleOfLocalStorage[element].sofaIdentifier);
       }
     
-      const formValues = {
-        personalUsersValues,
-        products: catchArrayProducts
+      const order = {
+        contact,
+        products
       };
     
    
       const options = {
         method: 'POST',
-        body: JSON.stringify(formValues),
+        body: JSON.stringify(order),
         headers: { 
           'Content-Type': 'application/json',
         }
@@ -299,8 +299,9 @@ function sendingForm() {
       fetch("http://localhost:3000/api/products/order", options)
           .then(response => response.json())
           .then(data => {
-          localStorage.setItem("article", data._id);
-          document.location.href = 'confirmation.html?id='+ data._id;
+          localStorage.setItem("orderId", data.orderId);
+ 
+          document.location.href = 'confirmation.html';
         });
     
   }); 
